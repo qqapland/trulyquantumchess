@@ -1,0 +1,14 @@
+﻿@Master['Master.sshtml']
+
+@Section['Head']
+	<script src="@Model.Prefix/content/index.js"></script>
+	@If.CaptchaEnabled
+		<script src='https://www.google.com/recaptcha/api.js'></script>
+	@EndIf
+@EndSection
+
+@Section['Body']
+	<div class="centered">
+		<img id="launch_new_game_btn" src="@Model.Prefix/content/logo.png"></img>
+	</div>
+@EndSection

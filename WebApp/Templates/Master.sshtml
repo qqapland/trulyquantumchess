@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>@Model.PageTitle</title>
+		<meta name="keywords" content="quantum,chess" />
+		<meta name="author" content="Cap. Hindsight &lt;hindsight@yandex.ru&gt;" />
+		<meta charset="utf8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+		<link rel="stylesheet" type="text/css" href="@Model.Prefix/content/stylesheet.css" />
+		<script>
+			var prefix = "@Model.Prefix";
+		</script>
+		@Section['Head'];
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<h1 class="centered">
+					Truly quantum chess <small>alpha</small>
+				</h1>
+				<p class="lead centered">
+					The thousand-year-old game of chess meets quantum physics.
+				</p>
+			</div>
+			<div class="row">
+				@Section['Body'];
+			</div>
+		</div>
+	</body>
+</html>

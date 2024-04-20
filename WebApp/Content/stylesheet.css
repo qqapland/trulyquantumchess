@@ -1,0 +1,122 @@
+﻿body {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;    
+    font-weight: 300
+}
+
+h1 {
+    font-weight: 500
+}
+
+small {
+    font-size: 1rem;
+    color: gray
+}
+
+span {
+    font-weight: 400;
+    font-size: 0.8rem
+}
+
+strong {
+    font-weight: 600;
+    font-size: 0.8rem
+}
+
+button {
+    background-color: darkcyan;
+    color: wheat;
+    border-radius: 4rem;
+    border: none;
+    padding: 2px 16px;
+    border: 2px solid transparent;
+    margin: 4px
+}
+
+button:hover {
+    background-color: rgb(2, 154, 154);
+    border: 2px solid;
+}
+
+.red {
+    color: red;
+}
+
+.centered {
+    text-align: center;
+}
+
+.tip {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.center-of-screen {
+    height: 34px;
+    width: 150px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -17px;
+    margin-left: -75px;
+}
+
+.chessboard-container {
+    padding-top: 10px;
+}
+
+table.chessboard {
+    border: 2px solid black;
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 320px;
+}
+
+table.chessboard.game-over {
+    opacity: 0.3;
+}
+
+table.chessboard td {
+    overflow: hidden;
+    width: 40px;
+    height: 40px;
+    padding: 0px;
+    margin: 0px;
+}
+
+table.chessboard td.coord {
+    overflow: hidden;
+    width: 40px;
+    height: 40px;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+table.chessboard td canvas {
+    width: 40px;
+    height: 40px;
+    vertical-align: bottom;
+}
+
+.square-last-move:not(.square-selected):not(.square-selected-quantum) {
+    background-color: #99ccff;
+}
+
+.square-black:not(.square-selected):not(.square-selected-quantum):not(.square-last-move) {
+    background-color: #d3d3d3;
+}
+
+.square-white:not(.square-selected):not(.square-selected-quantum):not(.square-last-move) {
+    background-color: #ffffe0;
+}
+
+.square-selected {
+    background-color: #99ff99;
+}
+
+.square-selected-quantum {
+    background-color: #e600e6;
+}
