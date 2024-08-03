@@ -9,5 +9,4 @@ just some hacks to get it working again, originally by caphindsight
 also deleted some things
 
 to run:
-docker-compose build
-docker-compose up
+docker-compose build && docker-compose up 

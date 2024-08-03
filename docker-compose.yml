@@ -8,9 +8,9 @@ services:
     command: "mono WebApp.exe"
     ports:
       - "9000:9000"
-    depends_on:
-      - "mongo"
-  mongo:
-    image: "mongo:3.6"
-    ports:
-      - "27017:27017"
+  #   depends_on:
+  #     - "mongo"
+  # mongo:
+  #   image: "mongo:3.6"
+  #   ports:
+  #     - "27017:27017"

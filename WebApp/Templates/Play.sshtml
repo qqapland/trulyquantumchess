@@ -18,47 +18,11 @@
 
 @Section['Body']
 	<div class="chessboard-container" align="center">
-		<span id="game_state">Copy the URL of this page and send it to your friend</span>
 		<br>
 		<div id="new_game" hidden="true">
 			<a href="@Model.Prefix/" class="btn btn-default">New game</a>
 			<br> <br>
 		</div>
-		<span hidden id="active_player">-</span>
-		<div style="border: black 1px solid;width: fit-content;padding: 0.5rem 1rem;border-radius:4px;margin: 4px;display: flex;flex-direction: row;align-items: center;">active player: <img id="active-img" src="https://i.imgur.com/gB3H5yb.png" style="width: 1.5rem" alt="White">
-</div>
-		
-		<script>
-		const targetNode = document.getElementById("active_player");
-		const imgNode = document.getElementById("active-img");
-
-
-		console.log("ji")
-
-		// Options for the observer (which mutations to observe)
-		const config = { attributes: true, childList: true, subtree: true };
-
-		// Callback function to execute when mutations are observed
-		const callback = (mutationList, observer) => {
-		for (const mutation of mutationList) {
-			if (mutation.type === "childList") {
-				if (targetNode.innerText === "white"){
-					imgNode.src = "https://i.imgur.com/gB3H5yb.png"
-					imgNode.alt = "White"
-				} else if (targetNode.innerText === "black"){
-					imgNode.src = "https://i.imgur.com/wYqAH1G.png"
-					imgNode.alt = "Black"
-				}
-			}
-		}
-		};
-
-		// Create an observer instance linked to the callback function
-		const observer = new MutationObserver(callback);
-
-		// Start observing the target node for configured mutations
-		observer.observe(targetNode, config);
-		</script>
 		<span id="error_message" class="red"></span>
 		<br>
 		<table class="chessboard">
@@ -184,10 +148,5 @@
 			</tr>
 		</table>
 		<br>
-		<span class="tip">Tap two times on the same piece to make a quantum move</span>
-		<br>
-		<button id="capitulate_btn" class="btn btn-default">Capitulate</button>
-		<button id="castle_left_btn" class="btn btn-default">Left castle</button>
-		<button id="castle_right_btn" class="btn btn-default">Right castle</button>
 	</div>
 @EndSection

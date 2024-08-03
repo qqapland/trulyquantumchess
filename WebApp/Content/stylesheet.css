@@ -31,12 +31,14 @@ button {
     border: none;
     padding: 2px 16px;
     border: 2px solid transparent;
-    margin: 4px
+    margin: 4px;
+    transform: scale(1);
+    transition: 0.15s all ease;
 }
 
 button:hover {
     background-color: rgb(2, 154, 154);
-    border: 2px solid;
+    transform: scale(1.1);
 }
 
 .red {
@@ -67,10 +69,11 @@ button:hover {
 }
 
 table.chessboard {
-    border: 2px solid black;
+    /* border: 2px solid black; */
     border-collapse: collapse;
     table-layout: fixed;
     width: 320px;
+    /* border-radius: 20px; */
 }
 
 table.chessboard.game-over {
@@ -110,7 +113,7 @@ table.chessboard td canvas {
 }
 
 .square-white:not(.square-selected):not(.square-selected-quantum):not(.square-last-move) {
-    background-color: #ffffe0;
+    /* background-color: #ffffe0; */
 }
 
 .square-selected {

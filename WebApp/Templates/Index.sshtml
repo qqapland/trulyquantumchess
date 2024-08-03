@@ -8,7 +8,8 @@
 @EndSection
 
 @Section['Body']
-	<div class="centered">
-		<img id="launch_new_game_btn" src="@Model.Prefix/content/logo.png"></img>
+	<div class="centered" style="display:flex;flex-direction: column;align-items: center;">
+		<img style="width: 250px;" src="@Model.Prefix/content/logo.png"></img>
+		<button id="launch_new_game_btn">Play</button>
 	</div>
 @EndSection
