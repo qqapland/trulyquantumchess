@@ -55,7 +55,7 @@ namespace TrulyQuantumChess.Kernel.Engine {
             if (move is CapitulateMove) {
                 // Make it an UndoMove
 
-                
+
 
 
                 // QuantumChessboard_.RegisterVictory(PlayerUtils.InvertPlayer(ActivePlayer_));
@@ -70,7 +70,7 @@ namespace TrulyQuantumChess.Kernel.Engine {
                     ActivePlayer_ = PlayerUtils.InvertPlayer(ActivePlayer_);
                     LastMovePositions_ = new Position[]{omove.Source, omove.Target};
                 } else {
-                    MoveProcessException.Throw("Move is inapplicable on all harmonics");
+                    MoveProcessException.Throw("eh, you can't move there");
                 }
             } else if (move is QuantumMove) {
                 var qmove = move as QuantumMove;
@@ -82,7 +82,7 @@ namespace TrulyQuantumChess.Kernel.Engine {
                     else
                         LastMovePositions_ = new Position[]{qmove.Source, qmove.Target};
                 } else {
-                    MoveProcessException.Throw("Quantum move is inapplicable on all harmonics");
+                    MoveProcessException.Throw("ooooo, quantum, but no you can't do that");
                 }
             } else if (move is CastleMove) {
                 var cmove = move as CastleMove;
@@ -97,7 +97,7 @@ namespace TrulyQuantumChess.Kernel.Engine {
                     else
                         LastMovePositions_[1] = Position.FromCoords(7, c);
                 } else {
-                    MoveProcessException.Throw("Castle is inapplicable on all harmonics");
+                    MoveProcessException.Throw("no castle for you");
                 }
             } else {
                 AssertionException.Assert(false, $"Unsupported move type: {move.GetType().Name}");
