@@ -104,6 +104,20 @@ namespace TrulyQuantumChess.WebApp {
             try {
                 QuantumChessEngine engine = await WebAppManagers.DatabaseManager.RequestEngine(request.GameId);
                 QuantumChessMove move = request.Parse(engine);
+
+                if (move is CapitulateMove) {
+                    // Console.WriteLine("Hello Undo!");
+                    await WebAppManagers.DatabaseManager.UndoMove(request.GameId);
+                    return new {
+                        Success = true
+                    };
+                } 
+                
+                // Do it here on the API layer
+                // Then send the WebAppManagers.DatabaseManager.UndoMove() to the background
+                // Otherwise redo move.
+                // Literally swaps the last two moves
+                
                 engine.Submit(move);
                 await WebAppManagers.DatabaseManager.UpdateEngine(request.GameId, engine);
                 return new {

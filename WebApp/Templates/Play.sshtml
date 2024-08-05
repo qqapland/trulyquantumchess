@@ -148,5 +148,9 @@
 			</tr>
 		</table>
 		<br>
+			<button id="capitulate_btn" class="btn btn-default">Undo</button>
+			<button id="castle_left_btn" class="btn btn-default">Left castle</button>
+			<button id="castle_right_btn" class="btn btn-default">Right castle</button>
 	</div>
+
 @EndSection

@@ -53,8 +53,13 @@ namespace TrulyQuantumChess.Kernel.Engine {
                 MoveProcessException.Throw("Waiting for another player's move");
 
             if (move is CapitulateMove) {
-                QuantumChessboard_.RegisterVictory(PlayerUtils.InvertPlayer(ActivePlayer_));
-                LastMovePositions_ = new Position[0];
+                // Make it an UndoMove
+
+                
+
+
+                // QuantumChessboard_.RegisterVictory(PlayerUtils.InvertPlayer(ActivePlayer_));
+                // LastMovePositions_ = new Position[0];
             } else if (move is AgreeToTieMove) {
                 QuantumChessboard_.RegisterTie();
                 LastMovePositions_ = new Position[0];

@@ -63,6 +63,7 @@ namespace TrulyQuantumChess.WebApp {
         Task<QuantumChessEngine> RequestEngine(string gameId);
         Task<string> InsertEngine(QuantumChessEngine engine);
         Task UpdateEngine(string gameId, QuantumChessEngine engine);
+        Task UndoMove(string gameId);
         Task CleanOldEntities(DateTime modification_instant);
     }
 
@@ -131,7 +132,26 @@ namespace TrulyQuantumChess.WebApp {
 
         public async Task UpdateEngine(string gameId, QuantumChessEngine engine) {
             var replacement = new Game(new ObjectId(gameId), engine);
+
+            // Take the old var bson_harmonics = new BsonArray(); harmonic
+            // and have it as harmoic2
+
+            var bson_harmonics2 = new BsonArray();
+            bson_harmonics2 = ActiveGames_.Find(FilterById(gameId)).First()["harmonics"].AsBsonArray;
+
             await ActiveGames_.FindOneAndReplaceAsync(FilterById(gameId), ChessBsonSerializationUtils.Serialize(replacement));
+            await ActiveGames_.UpdateOneAsync(FilterById(gameId), Builders<BsonDocument>.Update.Set("harmonics2", bson_harmonics2));
+        }
+
+        public async Task UndoMove(string gameId) {
+            // var game = await RequestEngine(gameId);
+            
+            // Swap the harmonics and harmonics2
+            var harmonics = ActiveGames_.Find(FilterById(gameId)).First()["harmonics"].AsBsonArray;
+            var harmonics2 = ActiveGames_.Find(FilterById(gameId)).First()["harmonics2"].AsBsonArray;
+            // Console.WriteLine(harmonics);
+            await ActiveGames_.UpdateOneAsync(FilterById(gameId), Builders<BsonDocument>.Update.Set("harmonics", harmonics2));
+            await ActiveGames_.UpdateOneAsync(FilterById(gameId), Builders<BsonDocument>.Update.Set("harmonics2", harmonics));
         }
 
         public async Task CleanOldEntities(DateTime modification_instant) {
