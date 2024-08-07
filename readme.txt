@@ -10,3 +10,5 @@ also deleted some things
 
 to run:
 docker-compose build && docker-compose up 
+
+Zen Pots by newyellow
