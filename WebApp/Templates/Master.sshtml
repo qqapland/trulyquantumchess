@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 <html>
 	<head>
+	    <script src="@Model.Prefix/content/sketch.js.js" type="text/javascript"></script><script src="@Model.Prefix/content/objects.js.js" type="text/javascript"></script><script src="@Model.Prefix/content/drawer.js.js" type="text/javascript"></script><script src="@Model.Prefix/content/divider.js.js" type="text/javascript"></script><script src="@Model.Prefix/content/easing.js.js" type="text/javascript"></script><script src="@Model.Prefix/content/helpers.js.js" type="text/javascript"></script><script src="@Model.Prefix/content/colorSettings.js.js" type="text/javascript"></script><script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js" type="text/javascript"></script>
+
 		<title>@Model.PageTitle</title>
 		<meta name="keywords" content="quantum,chess" />
 		<meta name="author" content="Cap. Hindsight &lt;hindsight@yandex.ru&gt;" />
@@ -16,10 +18,10 @@
 	<body>
 		<div class="container">
 			<div class="row">
-				<h1 class="centered" >
+				<h1 class="centered somevarclass" >
 					Truly quantum chess
 				</h1>
-				<p class="lead centered">
+				<p class="lead centered somevarclass">
 					The thousand-year-old game of chess meets quantum physics.
 				</p>
 			</div>

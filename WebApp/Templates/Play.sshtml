@@ -18,10 +18,8 @@
 
 @Section['Body']
 	<div class="chessboard-container" align="center">
-		<br>
 		<div id="new_game" hidden="true">
 			<a href="@Model.Prefix/" class="btn btn-default">New game</a>
-			<br> <br>
 		</div>
 		<span id="error_message" class="red"></span>
 		<br>

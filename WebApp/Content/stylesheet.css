@@ -1,4 +1,9 @@
-﻿body {
+﻿:root {
+    --somevar: black;
+    --somevar2: white;
+}
+
+body {
     padding-top: 2rem;
     padding-bottom: 2rem;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;    
@@ -9,9 +14,20 @@ h1 {
     font-weight: 500
 }
 
+.somevarclass {
+    color: var(--somevar);
+}
+
 small {
     font-size: 1rem;
     color: gray
+}
+
+main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -100;
 }
 
 span {
@@ -25,8 +41,10 @@ strong {
 }
 
 button {
-    background-color: darkcyan;
-    color: wheat;
+    /* background-color: darkcyan; */
+    /* color: wheat; */
+    background-color: var(--somevar);
+    color: var(--somevar2);
     border-radius: 4rem;
     border: none;
     padding: 2px 16px;
@@ -37,7 +55,7 @@ button {
 }
 
 button:hover {
-    background-color: rgb(2, 154, 154);
+    /* background-color: rgb(2, 154, 154); */
     transform: scale(1.1);
 }
 
@@ -109,7 +127,7 @@ table.chessboard td canvas {
 }
 
 .square-black:not(.square-selected):not(.square-selected-quantum):not(.square-last-move) {
-    background-color: #d3d3d3;
+    background-color: #fffbfb8f;
 }
 
 .square-white:not(.square-selected):not(.square-selected-quantum):not(.square-last-move) {

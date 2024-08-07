@@ -2,9 +2,6 @@
 
 @Section['Head']
 	<script src="@Model.Prefix/content/index.js"></script>
-	@If.CaptchaEnabled
-		<script src='https://www.google.com/recaptcha/api.js'></script>
-	@EndIf
 @EndSection
 
 @Section['Body']
