@@ -13,6 +13,7 @@ let _frontLayer;
 let _colorSet;
 
 async function setup() {
+  pixelDensity(1);
   createCanvas(windowWidth, windowHeight);
 	describe('This work randomly assembles different easing curves to create a pot shape and then uses stroke dots for an overall aesthetic style.');
 	
