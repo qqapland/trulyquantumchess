@@ -26,11 +26,16 @@ jobs:
           remote_user: a
           remote_key: ${{ secrets.SERVER_RSA_PRIV_KEY }}
 
-      - name: Read script contents
-        id: script
-        uses: andstor/file-reader-action@v1
+      - name: rsync script to server
+        uses: burnett01/rsync-deployments@7.0.1 # takeout the shell script and use it directly?
+        # and script needs hostname authentication as well.
         with:
-          path: deploy.sh
+          switches: -avzr --delete
+          path: deploychess.sh
+          remote_path: /home/a
+          remote_host: ${{ secrets.SERVER_IP }}
+          remote_user: a
+          remote_key: ${{ secrets.SERVER_RSA_PRIV_KEY }}
 
       - name: docker load and run
         uses: appleboy/ssh-action@v1.0.3
@@ -38,4 +43,4 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: a
           key: ${{ secrets.SERVER_RSA_PRIV_KEY }}
-          script: ${{ steps.script.outputs.contents }}
+          script: ./deploychess.sh
