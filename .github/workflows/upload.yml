@@ -26,10 +26,16 @@ jobs:
           remote_user: a
           remote_key: ${{ secrets.SERVER_RSA_PRIV_KEY }}
 
+      - name: Read script contents
+        id: script
+        uses: andstor/file-reader-action@v1
+        with:
+          path: deploy.sh
+
       - name: docker load and run
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_IP }}
           username: a
           key: ${{ secrets.SERVER_RSA_PRIV_KEY }}
-          script: ./deploy.sh
+          script: ${{ steps.script.outputs.contents }}
