@@ -1,0 +1,27 @@
+name: Upload & Deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    concurrency: upload-deploy-group
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - run: docker build -t chess -f Dockerfile .
+      - run: docker save -o chess.tar chess
+
+      - name: rsync container to server
+        uses: burnett01/rsync-deployments@7.0.1 # takeout the shell script and use it directly
+        with:
+          switches: -avzr --delete
+          path: chess.tar
+          remote_path: /home/a
+          remote_host: ${{ secrets.SERVER_IP }}
+          remote_user: a
+          remote_key: ${{ secrets.SERVER_RSA_PRIV_KEY }}
+      
