@@ -17,6 +17,7 @@ jobs:
 
       - name: rsync container to server
         uses: burnett01/rsync-deployments@7.0.1 # takeout the shell script and use it directly?
+        # and script needs hostname authentication as well.
         with:
           switches: -avzr --delete
           path: chess.tar
@@ -31,4 +32,4 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: a
           key: ${{ secrets.SERVER_RSA_PRIV_KEY }}
-          script: docker load -i /home/a/chess.tar && docker stop chess || true && docker run -p 3000:9000 chess mono WebApp.exe
+          script: dsi() { docker stop $(docker ps -a | awk -v i="^$1.*" '{if($2~i){print$1}}'); } && docker load -i /home/a/chess.tar && dsi chess || true && docker run -d -p 3000:9000 chess mono WebApp.exe
