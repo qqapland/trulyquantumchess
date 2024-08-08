@@ -25,6 +25,7 @@ jobs:
           remote_user: a
           remote_key: ${{ secrets.SERVER_RSA_PRIV_KEY }}
 
-      - run: ssh a@${{ secrets.SERVER_IP }} 'docker load -i /home/a/chess.tar'
-      - run: ssh a@${{ secrets.SERVER_IP }} 'docker stop chess || true'
-      - run: ssh a@${{ secrets.SERVER_IP }} 'docker run -p 3000:9000 chess mono WebApp.exe'
+        # add host key as a secret too
+      - run: ssh -o StrictHostKeyChecking=no a@${{ secrets.SERVER_IP }} 'docker load -i /home/a/chess.tar'
+      - run: ssh -o StrictHostKeyChecking=no a@${{ secrets.SERVER_IP }} 'docker stop chess || true'
+      - run: ssh -o StrictHostKeyChecking=no a@${{ secrets.SERVER_IP }} 'docker run -p 3000:9000 chess mono WebApp.exe'
