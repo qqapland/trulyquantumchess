@@ -82,7 +82,7 @@ namespace TrulyQuantumChess.Kernel.Engine {
                     else
                         LastMovePositions_ = new Position[]{qmove.Source, qmove.Target};
                 } else {
-                    MoveProcessException.Throw("ooooo, quantum, but no you can't do that");
+                    MoveProcessException.Throw("eh, quantum can't do that");
                 }
             } else if (move is CastleMove) {
                 var cmove = move as CastleMove;
