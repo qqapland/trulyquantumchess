@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
+      - name: Set up Docker Buildx # Use docker build caching with github cache 10gb
         uses: docker/setup-buildx-action@v1
       - run: docker build -t chess -f Dockerfile .
       - run: docker save -o chess.tar chess
