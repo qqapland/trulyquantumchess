@@ -139,7 +139,7 @@ $(function() {
                 if (move.source == "") {
                     // Selecting source square
                     if (prev_chessboard == null || prev_chessboard.squares[pos].player != active_player) {
-                        $("#error_message").text("Active player is " + active_player + "!");
+                        $("#error_message").text(active_player + " should play, not youuuu!");
                         return;
                     }
                     move.move_type = "ordinary";
