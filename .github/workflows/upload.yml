@@ -16,7 +16,7 @@ jobs:
       - run: docker save -o chess.tar chess
 
       - name: rsync container to server
-        uses: burnett01/rsync-deployments@7.0.1 # takeout the shell script and use it directly
+        uses: burnett01/rsync-deployments@7.0.1 # takeout the shell script and use it directly?
         with:
           switches: -avzr --delete
           path: chess.tar
@@ -25,7 +25,10 @@ jobs:
           remote_user: a
           remote_key: ${{ secrets.SERVER_RSA_PRIV_KEY }}
 
-        # add host key as a secret too
-      - run: ssh -o StrictHostKeyChecking=no a@${{ secrets.SERVER_IP }} 'docker load -i /home/a/chess.tar'
-      - run: ssh -o StrictHostKeyChecking=no a@${{ secrets.SERVER_IP }} 'docker stop chess || true'
-      - run: ssh -o StrictHostKeyChecking=no a@${{ secrets.SERVER_IP }} 'docker run -p 3000:9000 chess mono WebApp.exe'
+      - name: docker load and run
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: a
+          key: ${{ secrets.SERVER_RSA_PRIV_KEY }}
+          script: docker load -i /home/a/chess.tar && docker stop chess || true && docker run -p 3000:9000 chess mono WebApp.exe
