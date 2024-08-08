@@ -32,4 +32,4 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: a
           key: ${{ secrets.SERVER_RSA_PRIV_KEY }}
-          script: dsi() { docker stop $(docker ps -a | awk -v i="^$1.*" '{if($2~i){print$1}}'); } && docker load -i /home/a/chess.tar && dsi chess || true && docker run -d -p 3000:9000 chess mono WebApp.exe
+          script: docker load -i /home/a/chess.tar && docker stop $(docker ps -a | awk -v i="^chess.*" '{if($2~i){print$1}}') || true && docker run -d -p 3000:9000 chess mono WebApp.exe
