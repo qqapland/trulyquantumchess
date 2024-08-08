@@ -43,4 +43,4 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: a
           key: ${{ secrets.SERVER_RSA_PRIV_KEY }}
-          script: ./deploychess.sh
+          script: ./home/a/deploychess.sh
