@@ -121,11 +121,12 @@ function update_chessboard() {
         }
         prev_chessboard = data;
     });
+    // console.log(board);
 }
 
 $(function() {
     update_chessboard();
-    setInterval(update_chessboard, 5000);
+    setInterval(update_chessboard, 500);
     var rows = "abcdefgh";
 
     // Setting up triggers

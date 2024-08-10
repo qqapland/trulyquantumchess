@@ -150,5 +150,23 @@
 			<button id="castle_left_btn" class="btn btn-default">Left castle</button>
 			<button id="castle_right_btn" class="btn btn-default">Right castle</button>
 	</div>
+	<script>
+		// Add hover effect to canvas elements
+		const messageElement = document.querySelector('.lead.centered.somevarclass');
+		const originalMessage = messageElement.textContent;
 
+		document.querySelectorAll('.chessboard canvas').forEach(canvas => {
+			canvas.addEventListener('mouseover', (e) => {
+				const square = e.target.id.slice(3);
+				const probability = prev_chessboard.squares[square] ? prev_chessboard.squares[square].probability : 0;
+				messageElement.textContent = `Hovering over square: ${square}, Probability: ${probability}`;
+			});
+
+			canvas.addEventListener('mouseout', () => {
+				messageElement.textContent = originalMessage;
+			});
+		});
+
+
+	</script>
 @EndSection
