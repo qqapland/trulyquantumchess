@@ -152,11 +152,11 @@
 	</div>
 	<script>
 
-
 		// Add right-click and drag functionality for creating arrows
 		let isDragging = false;
 		let startCell = null;
-		let arrowElement = null;
+		let arrowElements = [];
+		let boardChanged = false;
 
 		document.querySelectorAll('.chessboard td').forEach(cell => {
 			cell.addEventListener('contextmenu', (e) => {
@@ -165,32 +165,37 @@
 				isDragging = true;
 				
 				// Create arrow element
-				arrowElement = document.createElement('div');
+				const arrowElement = document.createElement('div');
 				arrowElement.className = 'arrow';
 				arrowElement.style.position = 'absolute';
 				arrowElement.style.zIndex = '1000';
 				document.body.appendChild(arrowElement);
+				arrowElements.push(arrowElement);
 				
-				updateArrow(e);
+				updateArrow(e, arrowElement);
 			});
 		});
 
 		document.addEventListener('mousemove', (e) => {
 			if (isDragging) {
-				updateArrow(e);
+				updateArrow(e, arrowElements[arrowElements.length - 1]);
 			}
 		});
 
 		document.addEventListener('mouseup', (e) => {
-			if (isDragging) {
+			if (isDragging && e.button === 2) { // Right mouse button
 				isDragging = false;
-				if (arrowElement) {
-					arrowElement.remove();
-				}
+				startCell = null;
 			}
 		});
 
-		function updateArrow(e) {
+		document.addEventListener('click', (e) => {
+			if (e.button === 0) { // Left mouse button
+				removeAllArrows();
+			}
+		});
+
+		function updateArrow(e, arrowElement) {
 			if (!startCell || !arrowElement) return;
 
 			const startRect = startCell.getBoundingClientRect();
@@ -207,6 +212,11 @@
 			arrowElement.style.top = `${startY}px`;
 			arrowElement.style.width = `${length}px`;
 			arrowElement.style.transform = `rotate(${angle}rad)`;
+		}
+
+		function removeAllArrows() {
+			arrowElements.forEach(arrow => arrow.remove());
+			arrowElements = [];
 		}
 
 		// Add CSS for the arrow
@@ -313,6 +323,7 @@
 			originalUpdateChessboard();
 			let currentFen = boardToFen();
 			if (currentFen !== previousFen) {
+				removeAllArrows()
 				analyzePosition();
 				previousFen = currentFen;
 				clearHighlight();
