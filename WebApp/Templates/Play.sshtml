@@ -151,6 +151,89 @@
 			<button id="castle_right_btn" class="btn btn-default">Right castle</button>
 	</div>
 	<script>
+
+
+		// Add right-click and drag functionality for creating arrows
+		let isDragging = false;
+		let startCell = null;
+		let arrowElement = null;
+
+		document.querySelectorAll('.chessboard td').forEach(cell => {
+			cell.addEventListener('contextmenu', (e) => {
+				e.preventDefault(); // Prevent default right-click menu
+				startCell = cell;
+				isDragging = true;
+				
+				// Create arrow element
+				arrowElement = document.createElement('div');
+				arrowElement.className = 'arrow';
+				arrowElement.style.position = 'absolute';
+				arrowElement.style.zIndex = '1000';
+				document.body.appendChild(arrowElement);
+				
+				updateArrow(e);
+			});
+		});
+
+		document.addEventListener('mousemove', (e) => {
+			if (isDragging) {
+				updateArrow(e);
+			}
+		});
+
+		document.addEventListener('mouseup', (e) => {
+			if (isDragging) {
+				isDragging = false;
+				if (arrowElement) {
+					arrowElement.remove();
+				}
+			}
+		});
+
+		function updateArrow(e) {
+			if (!startCell || !arrowElement) return;
+
+			const startRect = startCell.getBoundingClientRect();
+			const startX = startRect.left + startRect.width / 2;
+			const startY = startRect.top + startRect.height / 2;
+
+			const endX = e.clientX;
+			const endY = e.clientY;
+
+			const angle = Math.atan2(endY - startY, endX - startX);
+			const length = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+
+			arrowElement.style.left = `${startX}px`;
+			arrowElement.style.top = `${startY}px`;
+			arrowElement.style.width = `${length}px`;
+			arrowElement.style.transform = `rotate(${angle}rad)`;
+		}
+
+		// Add CSS for the arrow
+		const style = document.createElement('style');
+		style.textContent = `
+			.arrow {
+				height: 2px;
+				background-color: var(--somevar);
+				transform-origin: left center;
+			}
+			.arrow::after {
+				content: '';
+				position: absolute;
+				right: -5px;
+				top: -4px;
+				width: 0;
+				height: 0;
+				border-left: 10px solid var(--somevar);
+				border-top: 5px solid transparent;
+				border-bottom: 5px solid transparent;
+			}
+		`;
+		document.head.appendChild(style);
+
+
+
+
 		// Add hover effect to canvas elements
 		const messageElement = document.querySelector('.lead.centered.somevarclass');
 		const originalMessage = messageElement.textContent;
