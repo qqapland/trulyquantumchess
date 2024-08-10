@@ -122,15 +122,19 @@ table.chessboard td canvas {
     vertical-align: bottom;
 }
 
-.square-last-move:not(.square-selected):not(.square-selected-quantum) {
+.square-dumb-move:not(.square-selected):not(.square-selected-quantum) {
+    background-color: rgb(236, 236, 166);
+}
+
+.square-last-move:not(.square-dumb-move):not(.square-selected):not(.square-selected-quantum) {
     background-color: #99ccff;
 }
 
-.square-black:not(.square-selected):not(.square-selected-quantum):not(.square-last-move) {
+.square-black:not(.square-dumb-move):not(.square-selected):not(.square-selected-quantum):not(.square-last-move) {
     background-color: #fffbfb8f;
 }
 
-.square-white:not(.square-selected):not(.square-selected-quantum):not(.square-last-move) {
+.square-white:not(.square-dumb-move):not(.square-selected):not(.square-selected-quantum):not(.square-last-move) {
     /* background-color: #ffffe0; */
 }
 

@@ -251,5 +251,107 @@
 		});
 
 
+
+		var wasmSupported = typeof WebAssembly === 'object' && WebAssembly.validate(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
+
+		var stockfish = new Worker(wasmSupported ? '@Model.Prefix/content/stockfish.wasm.js' : '@Model.Prefix/content/stockfish.js');
+
+		stockfish.addEventListener('message', function (e) {
+			console.log(e.data);
+		});
+
+		console.log(stockfish.postMessage('uci'))
+
+		// Function to convert chessboard state to FEN notation
+		function boardToFen() {
+			if (!prev_chessboard || !prev_chessboard.squares) return 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'; // Default starting position
+
+			let fen = '';
+			let emptyCount = 0;
+
+			for (let rank = 8; rank >= 1; rank--) {
+				for (let file of 'abcdefgh') {
+					let square = prev_chessboard.squares[file + rank];
+					if (square && square.piece) {
+						if (emptyCount > 0) {
+							fen += emptyCount;
+							emptyCount = 0;
+						}
+						let pieceChar = square.piece[0].toUpperCase();
+						fen += (square.player === 'white') ? pieceChar : pieceChar.toLowerCase();
+					} else {
+						emptyCount++;
+					}
+				}
+				if (emptyCount > 0) {
+					fen += emptyCount;
+					emptyCount = 0;
+				}
+				if (rank > 1) fen += '/';
+			}
+
+			fen += ` ${active_player[0]} - - 0 1`; // Simplified, assuming no castling rights or en passant
+			return fen;
+		}
+
+		// Function to analyze the current position
+		function analyzePosition() {
+			let fen = boardToFen();
+			stockfish.postMessage('position fen ' + fen);
+			stockfish.postMessage('go depth 15');
+		}
+
+		// Analyze position only when the position changes
+		let originalUpdateChessboard = update_chessboard;
+		let previousFen = '';
+		let highlightTimeout = null;
+
+		update_chessboard = function() {
+			originalUpdateChessboard();
+			let currentFen = boardToFen();
+			if (currentFen !== previousFen) {
+				analyzePosition();
+				previousFen = currentFen;
+				clearHighlight();
+			}
+		};
+
+		// Function to clear highlight
+		function clearHighlight() {
+			document.querySelectorAll('.chessboard td canvas').forEach(canvas => {
+				canvas.classList.remove('square-dumb-move');
+			});
+		}
+
+		// Listen for Stockfish analysis results
+		stockfish.addEventListener('message', function(e) {
+			let message = e.data;
+			if (typeof message === 'string') {
+				if (message.startsWith('info depth') && message.includes('score cp')) {
+					let score = parseInt(message.split('score cp ')[1]);
+					let evaluation = (score / 100).toFixed(2);
+					document.getElementById('stockfish-eval').textContent = `Evaluation: ${evaluation}`;
+				} else if (message.startsWith('bestmove')) {
+					let bestMove = message.split(' ')[1];
+					document.getElementById('stockfish-best-move').textContent = `Best move: ${bestMove}`;
+					// Highlight the best move on the board
+					const fromSquare = bestMove.substring(0, 2);
+					const toSquare = bestMove.substring(2, 4);
+					document.getElementById(`sq-${fromSquare}`).classList.add('square-dumb-move');
+					document.getElementById(`sq-${toSquare}`).classList.add('square-dumb-move');
+				}
+			}
+		});
+
+		// Add Stockfish evaluation display elements
+		let evalDiv = document.createElement('div');
+		evalDiv.innerHTML = `
+			<div hidden id="stockfish-eval">Evaluation: 0.00</div>
+			<div hidden id="stockfish-best-move">Best move: -</div>
+		`;
+		document.querySelector('.chessboard-container').appendChild(evalDiv);
+
+
+
 	</script>
 @EndSection

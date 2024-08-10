@@ -83,6 +83,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
 
+    <None Include="Content\stockfish.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+
+    <None Include="Content\stockfish.wasm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+
+    <None Include="Content\stockfish.wasm.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+
     <None Include="Content\colorSettings.js.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
