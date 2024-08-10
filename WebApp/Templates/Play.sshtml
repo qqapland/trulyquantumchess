@@ -278,6 +278,9 @@
 							emptyCount = 0;
 						}
 						let pieceChar = square.piece[0].toUpperCase();
+						if (square.piece === 'knight') {
+							pieceChar = 'N';
+						}
 						fen += (square.player === 'white') ? pieceChar : pieceChar.toLowerCase();
 					} else {
 						emptyCount++;
