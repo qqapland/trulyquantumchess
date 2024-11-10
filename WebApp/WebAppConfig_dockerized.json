@@ -2,8 +2,8 @@
     "ListenUrl" : "http://localhost:9000",
     "Prefix": "",
     "Mongo": {
-        "ConnectionString": "mongodb://mongofish_betterwant:48dbe3ffb359ae4c4edb48a55b7e92decf22b688@zvd.h.filess.io:27017/mongofish_betterwant",
-        "Database": "mongofish_betterwant"
+        "ConnectionString": "mongodb://betterfishnew_shortondo:9053d118b503155fa346776f15f5239e3255435c@z-6dv.h.filess.io:27017/betterfishnew_shortondo",
+        "Database": "betterfishnew_shortondo"
     },
     "CleanAfterHours": 2,
     "Debug": true,
