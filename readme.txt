@@ -2,6 +2,8 @@ quantum chess game
 
 works again go to trulyquantumchess.adi.fr.eu.org
 
+probably leaks some random credentials
+
 features:
 - themes that change by refreshing the page
 - suggested moves
