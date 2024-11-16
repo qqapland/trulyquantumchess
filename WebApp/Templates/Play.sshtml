@@ -265,6 +265,11 @@
 		var wasmSupported = typeof WebAssembly === 'object' && WebAssembly.validate(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
 
 		var stockfish = new Worker(wasmSupported ? '@Model.Prefix/content/stockfish.wasm.js' : '@Model.Prefix/content/stockfish.js');
+		const urlParams = new URLSearchParams(window.location.search);
+		if (urlParams.get('suggestions') === 'false') {
+			stockfish.terminate();
+			stockfish = null;
+		}
 
 		stockfish.addEventListener('message', function (e) {
 			console.log(e.data);
