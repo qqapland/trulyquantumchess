@@ -323,6 +323,7 @@
 		let originalUpdateChessboard = update_chessboard;
 		let previousFen = '';
 		let highlightTimeout = null;
+		let currentBestMove = null;
 
 		update_chessboard = function() {
 			originalUpdateChessboard();
@@ -341,6 +342,177 @@
 				canvas.classList.remove('square-dumb-move');
 			});
 		}
+		// Function to show auto-move popup
+		function showAutoMovePopup() {
+			// Create popup element
+			const popup = document.createElement('div');
+			popup.id = 'auto-move-popup';
+			popup.style.cssText = `
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				background: rgba(0, 0, 0, 0.8);
+				color: white;
+				padding: 20px;
+				border-radius: 10px;
+				z-index: 1000;
+				font-size: 18px;
+				text-align: center;
+			`;
+			popup.textContent = 'Auto moving...';
+			document.body.appendChild(popup);
+			
+			// Remove popup after 1.5 seconds
+			setTimeout(() => {
+				if (document.getElementById('auto-move-popup')) {
+					document.body.removeChild(popup);
+				}
+			}, 1500);
+		}
+
+		// Function to execute the suggested move
+		function executeSuggestedMove() {
+			if (currentBestMove && currentBestMove.length >= 4) {
+				// Show the auto-move popup
+				showAutoMovePopup();
+				
+				const fromSquare = currentBestMove.substring(0, 2);
+				const toSquare = currentBestMove.substring(2, 4);
+				
+				// Simulate clicking on the from square and then the to square
+				const fromElement = document.getElementById(`sq-${fromSquare}`);
+				const toElement = document.getElementById(`sq-${toSquare}`);
+				
+				if (fromElement && toElement) {
+					// Trigger click events to make the move
+					fromElement.click();
+					toElement.click();
+				}
+			}
+		}
+
+		// Add keyboard event listener for Enter key
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter') {
+				e.preventDefault();
+				executeSuggestedMove();
+			}
+		});
+
+		// Keyboard shortcuts for manual moves
+		let selectedSquare = null;
+		let keyboardBuffer = '';
+		let keyboardTimeout = null;
+
+		// Function to parse square notation (e.g., "d4" -> "sq-d4")
+		function parseSquareNotation(notation) {
+			if (notation.length !== 2) return null;
+			const file = notation[0].toLowerCase();
+			const rank = notation[1];
+			
+			// Validate file (a-h) and rank (1-8)
+			if (file >= 'a' && file <= 'h' && rank >= '1' && rank <= '8') {
+				return `sq-${file}${rank}`;
+			}
+			return null;
+		}
+
+		// Function to simulate click on a square
+		function clickSquare(squareId) {
+			const element = document.getElementById(squareId);
+			if (element) {
+				element.click();
+				return true;
+			}
+			return false;
+		}
+
+		// Function to simulate double click on a square (for quantum moves)
+		function doubleClickSquare(squareId) {
+			const element = document.getElementById(squareId);
+			if (element) {
+				element.click();
+				element.click();
+				return true;
+			}
+			return false;
+		}
+
+		// Enhanced keyboard event listener
+		document.addEventListener('keydown', (e) => {
+			// Handle Enter key for suggested moves (existing functionality)
+			if (e.key === 'Enter') {
+				e.preventDefault();
+				executeSuggestedMove();
+				return;
+			}
+
+			// Handle Space bar for quantum moves
+			if (e.key === ' ') {
+				e.preventDefault();
+				if (selectedSquare) {
+					doubleClickSquare(selectedSquare);
+					selectedSquare = null;
+				}
+				return;
+			}
+
+			// Handle Escape to clear selection
+			if (e.key === 'Escape') {
+				e.preventDefault();
+				selectedSquare = null;
+				keyboardBuffer = '';
+				if (keyboardTimeout) {
+					clearTimeout(keyboardTimeout);
+					keyboardTimeout = null;
+				}
+				return;
+			}
+
+			// Handle letter and number keys for square notation
+			if ((e.key >= 'a' && e.key <= 'h') || (e.key >= 'A' && e.key <= 'H') || 
+				(e.key >= '1' && e.key <= '8')) {
+				e.preventDefault();
+				
+				// Add to keyboard buffer
+				keyboardBuffer += e.key.toLowerCase();
+				
+				// Clear existing timeout
+				if (keyboardTimeout) {
+					clearTimeout(keyboardTimeout);
+				}
+				
+				// Set timeout to clear buffer after 1 second of inactivity
+				keyboardTimeout = setTimeout(() => {
+					keyboardBuffer = '';
+					keyboardTimeout = null;
+				}, 1000);
+				
+				// Check if we have a complete square notation
+				if (keyboardBuffer.length === 2) {
+					const squareId = parseSquareNotation(keyboardBuffer);
+					if (squareId) {
+						if (selectedSquare === null) {
+							// First square selection
+							if (clickSquare(squareId)) {
+								selectedSquare = squareId;
+							}
+						} else {
+							// Second square selection (make move)
+							clickSquare(squareId);
+							selectedSquare = null;
+						}
+					}
+					// Clear buffer after processing
+					keyboardBuffer = '';
+					if (keyboardTimeout) {
+						clearTimeout(keyboardTimeout);
+						keyboardTimeout = null;
+					}
+				}
+			}
+		});
 
 		// Listen for Stockfish analysis results
 		stockfish.addEventListener('message', function(e) {
@@ -352,6 +524,7 @@
 					document.getElementById('stockfish-eval').textContent = `Evaluation: ${evaluation}`;
 				} else if (message.startsWith('bestmove')) {
 					let bestMove = message.split(' ')[1];
+					currentBestMove = bestMove;
 					document.getElementById('stockfish-best-move').textContent = `Best move: ${bestMove}`;
 					// Highlight the best move on the board
 					const fromSquare = bestMove.substring(0, 2);

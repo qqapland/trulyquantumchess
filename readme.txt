@@ -10,6 +10,7 @@ features:
 - an undo button
 - hovering to show exact probabilities
 - right click drag to add arrows
+- press enter to execute the suggested move, and letter-number to move a piece
 
 to run:
 docker build -t chess -f Dockerfile . && docker run --init -p 9000:9000 chess mono WebApp.exe  
